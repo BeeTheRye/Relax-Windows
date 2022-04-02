@@ -1,17 +1,17 @@
-#take a momment to breath
-#goal of this program is to interupt the user at their workstation every few others to remind them to breath.
-#it will be a small non-invasive window that should have some text and a gif/video of some sort associated with it.
-#Hopefully having the text fade in over something a nice mountain view or ocean view
+#relax Windows
 
 from email.mime import image
 from tkinter import *
 from random import choice
 import webbrowser
 import random
+import time
+
+from anyio import current_time
 
 
 window = Tk()
-window.geometry("1105x700")
+window.geometry("695x900")
 window.title("Ready to chill?")
 window.config(background="#027eab")
 window.resizable(False,False)
@@ -29,16 +29,29 @@ relaxingurloptions = [
     'https://www.youtube.com/watch?v=5qap5aO4i9A',    
 ]
 
+def clockupdate():
+   clocktime = time.strftime("%M:%S")
+   timer.config(text=clocktime)
+    
+
 def relaxurl():
     global realrandom
     window.quit()
     print (webbrowser.open((random.choice(relaxingurloptions))))
     
 def relaxbutton2():
-    window.quit()
-    print("test2")
-    
-def relaxbutton3():
+    global timer
+    window2 = Toplevel(window)
+    window2.geometry('695x900')
+    window2.resizable(False,False)
+    window2.title('Snack Break!')
+    timer = Label(window2,
+                  text="",
+                  font=("Comic Sans", 50),
+                  bg="green")
+    timer.pack(pady=20)
+    clockupdate()
+def relaxbutton3():   
     window.quit()
     print("test3")
      
@@ -54,35 +67,55 @@ label = Label(window,
               padx=50,
               pady=20,
               compound='bottom'
-              ).grid(column=3)
-
-MainPhoto = Label(window,
-              text="Welcome to Relaxation",
-              image=photo2).grid(row=2, column=3)
+              ).grid(row= 0,sticky='e')
 
 RelaxButton = Button(window,
-                     font=('Arial',40,'bold'),
+                     font=('Arial',20,'bold'),
                      fg = 'green',
                      bg='black',
                      relief=RAISED,
                      bd=10,
                      padx=10,
                      pady=10,
-                     text = 'Relax',
-                     #command = realrandom.choice(relaxoptions),
+                     text = 'Relaxing Videos',
                      command = relaxurl
-                     ).grid(row=4, column=2)
+                     ).grid(row=6)
+             
+
+RelaxButton2 = Button(window,
+                     font=('Arial',20,'bold'),
+                     fg = 'green',
+                     bg='black',
+                     relief=RAISED,
+                     bd=10,
+                     padx=10,
+                     pady=10,
+                     text = 'Snack',
+                     command =relaxbutton2
+                     ).grid(row=7)
+
+RelaxButton3 = Button(window,
+                     font=('Arial',20,'bold'),
+                     fg = 'green',
+                     bg='black',
+                     relief=RAISED,
+                     bd=10,
+                     padx=10,
+                     pady=10,
+                     text = 'Relax3',
+                     command=relaxbutton3
+                     ).grid(row=8)
 
 QuitButton = Button(window,
                    text = 'Quit',
-                   font=('Arial',40,'bold'),
+                   font=('Arial',20,'bold'),
                    fg = 'green',
                    bg='black',
                    relief=RAISED,
                    bd=10,
                    padx=10,
                    pady=10,
-                   command = window.destroy).grid(row=4, column=4)
+                   command = window.destroy).grid(row=9)
                    
 window.mainloop()
 
